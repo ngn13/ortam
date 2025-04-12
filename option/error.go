@@ -12,14 +12,14 @@ type TypeError struct {
 }
 
 func (e *TypeError) Error() string {
-  typ := strings.ToLower(e.Type)
+	typ := strings.ToLower(e.Type)
 
-  switch typ[0] {
-  case 'a', 'e', 'i', 'o', 'u':
-	  return fmt.Sprintf("expected an %s value for %s", typ, e.Env)
-  default:
-	  return fmt.Sprintf("expected a %s value for %s", typ, e.Env)
-  }
+	switch typ[0] {
+	case 'a', 'e', 'i', 'o', 'u':
+		return fmt.Sprintf("expected an %s value for %s", typ, e.Env)
+	default:
+		return fmt.Sprintf("expected a %s value for %s", typ, e.Env)
+	}
 }
 
 // failed to parse an environment variable
