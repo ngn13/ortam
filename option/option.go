@@ -58,13 +58,6 @@ func New(prefix string, value reflect.Value, field ...reflect.StructField) Optio
 	return opt
 }
 
-func (opt *Option) TypeError() error {
-	return &TypeError{
-		Env:  opt.Name,
-		Type: opt.Field.Type.Name(),
-	}
-}
-
 func (opt *Option) ParseError(err error) error {
 	return &ParseError{
 		Env:  opt.Name,

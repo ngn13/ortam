@@ -7,7 +7,7 @@ tiny and simple, environment variable based configuration library for Go with ze
 ### install
 you can add ortam to your project using the `go get` command:
 ```bash
-go get github.com/ngn13/ortam
+go get -u github.com/ngn13/ortam
 ```
 
 ### usage

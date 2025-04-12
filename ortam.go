@@ -13,10 +13,22 @@ func (e *ArgError) Error() string {
 	return "config argument is not a valid structure pointer"
 }
 
+// failed to load the config option from env
+type OptError struct {
+	Environ string
+	Type    string
+	error   string
+}
+
+func (e *OptError) Error() string {
+	return e.error
+}
+
 func Load(config any, prefix ...string) error {
 	var (
 		opt option.Option
 		val reflect.Value
+		err error
 	)
 
 	if nil == config {
@@ -35,5 +47,15 @@ func Load(config any, prefix ...string) error {
 		opt = option.New("", val.Elem())
 	}
 
-	return opt.Struct()
+	err = opt.Struct()
+
+	if e, ok := err.(*option.ParseError); ok {
+		return &OptError{
+			Environ: e.Env,
+			Type:    e.Type,
+			error:   e.Error(),
+		}
+	}
+
+	return nil
 }

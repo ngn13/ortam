@@ -6,12 +6,17 @@ import (
 )
 
 // environment variable has an invalid type
-type TypeError struct {
+type ParseError struct {
 	Env  string
 	Type string
+	Err  error
 }
 
-func (e *TypeError) Error() string {
+func (e *ParseError) Error() string {
+	if e.Err != nil {
+		return fmt.Sprintf("failed to parse %s as %s: %s", e.Env, strings.ToLower(e.Type), e.Err.Error())
+	}
+
 	typ := strings.ToLower(e.Type)
 
 	switch typ[0] {
@@ -20,15 +25,4 @@ func (e *TypeError) Error() string {
 	default:
 		return fmt.Sprintf("expected a %s value for %s", typ, e.Env)
 	}
-}
-
-// failed to parse an environment variable
-type ParseError struct {
-	Env  string
-	Type string
-	Err  error
-}
-
-func (e *ParseError) Error() string {
-	return fmt.Sprintf("failed to parse %s as %s: %s", e.Env, strings.ToLower(e.Type), e.Err.Error())
 }

@@ -13,7 +13,7 @@ func (opt *Option) Bool() error {
 		opt.Value.SetBool(false)
 
 	default:
-		return opt.TypeError()
+		return opt.ParseError(nil)
 	}
 
 	return nil
