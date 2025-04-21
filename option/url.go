@@ -19,6 +19,10 @@ func (opt *Option) Url() error {
 		return opt.ParseError(err)
 	}
 
+	if urlp.Scheme == "" || urlp.Host == "" {
+		return opt.ParseError(nil)
+	}
+
 	opt.Value.Set(reflect.ValueOf(urlp))
 	return nil
 }

@@ -62,6 +62,6 @@ func (opt *Option) ParseError(err error) error {
 	return &ParseError{
 		Env:  opt.Name,
 		Err:  err,
-		Type: opt.Field.Type.Name(),
+		Type: opt.Field.Type.String(),
 	}
 }
