@@ -4,6 +4,7 @@ import (
 	"net/url"
 	"os"
 	"testing"
+	"time"
 )
 
 type SubConfig struct {
@@ -16,6 +17,7 @@ type Config struct {
 	IntConf    int
 	FloatConf  float64
 	BoolConf   bool
+	DurConf    time.Duration
 	StructConf SubConfig `ortam:"SUB"`
 }
 
@@ -33,10 +35,11 @@ func TestLoad(t *testing.T) {
 	os.Setenv("TEST_INT_CONF", "-42")
 	os.Setenv("TEST_FLOAT_CONF", "42.713")
 	os.Setenv("TEST_BOOL_CONF", "true")
+	os.Setenv("TEST_DUR_CONF", "42h")
 	os.Setenv("TEST_SUB_URL_CONF", "http://localhost:8080")
 
 	if err := Load(&config, "TEST"); err != nil {
-		t.Errorf("load failed: %s", err.Error())
+		t.Errorf("failed to load the configuration: %s", err.Error())
 	}
 
 	if config.StringConf != "hello world" {
@@ -51,12 +54,16 @@ func TestLoad(t *testing.T) {
 		badValue(t, "uint", config.UintConf)
 	}
 
+	if config.FloatConf != 42.713 {
+		badValue(t, "float", config.FloatConf)
+	}
+
 	if !config.BoolConf {
 		badValue(t, "bool", config.BoolConf)
 	}
 
-	if config.FloatConf != 42.713 {
-		badValue(t, "float", config.FloatConf)
+	if config.DurConf != time.Hour*42 {
+		badValue(t, "duration", config.DurConf)
 	}
 
 	if config.StructConf.UrlConf == nil {

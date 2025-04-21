@@ -42,7 +42,11 @@ func (opt *Option) Struct() error {
 			err = opt_new.Int(32)
 
 		case reflect.Int64:
-			err = opt_new.Int(64)
+			if opt_new.Field.Type.String() == "time.Duration" {
+				err = opt_new.Duration()
+			} else {
+				err = opt_new.Int(64)
+			}
 
 		case reflect.Float32:
 			err = opt_new.Float(32)

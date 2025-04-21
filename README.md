@@ -18,9 +18,21 @@ type MyConfig struct {
     Debug bool
 }
 ```
-your structure can only contain integer types (`Uint...`, `Int...` and `Float...` types),
-the `Bool` type, `String` type or `*url.URL` type, any other type will be ignored, you can
-also use other structures to build up your configuration structure
+your structure can only contain integer types (`uint...`, `int...` and `float...` types),
+the `bool` type, `string` type, `*url.URL` type or `time.Duration` type, any other type
+will be ignored, you can also use other structures to build up your configuration structure
+
+here are example values for all the different types:
+
+| type          | values                                                | note                                                                 |
+| ------------- | ----------------------------------------------------- | -------------------------------------------------------------------- |
+| int...        | 42, -12, 1098 etc.                                    | value should fit in given type                                       |
+| uint...       | 42, 1098, 0 etc.                                      | value should fit in given type                                       |
+| float...      | 3.3, 42.983, 99.99 etc.                               | value should fit in given type                                       |
+| bool          | true, 1, false, 0                                     |                                                                      |
+| string        | "hello world", "127.0.0.1:8080" etc.                  |                                                                      |
+| *url.URL      | "https://example.com/example", "ftp://localhost" etc. | value should be a full URL (scheme and host is required)             |
+| time.Duration | "1h", "42m", "30s" etc.                               | value requires a "h" (hour), a "m" (minute) or a "s" (second) suffix |
 
 after defining your configuration variable using the new sturcture you created (optionally
 with the default values), you can use `ortam.Load()` to load the configuration from the
